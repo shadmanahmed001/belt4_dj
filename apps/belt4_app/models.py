@@ -62,11 +62,53 @@ class UserManager(models.Manager):
 
 		return {'status': False, 'errors': errors}
 
+	def addingitem(self, post, id):
+		item = post['item']
+		if len(item) == 0 or len(item) < 3:
+			errors = []
+			errors.append('Empty field!')
+			return {'status': False, 'errors': errors}
+		added_by = id
+		user_list= User.objects.filter(id=id)
+		user = user_list[0]
+		Item.objects.create(item=item, added_by= user)
+		item_list = Item.objects.filter(item=item, added_by=user)
+		item = item_list[0]
+		Wish_list.objects.create(useradding= user, itemsadded=item)
+		print item
+		print id
+		return {
+		'status' : True
+		}
+
+	def addtomy(self, id, uid):
+		itemsfilter = Item.objects.filter(id=id)
+		userfilter = User.objects.filter(id=uid)
+		Wish_list.objects.create(itemsadded= itemsfilter[0], useradding= userfilter[0])
+		return True
+
+	def delete(self, id):
+		Item.objects.filter(id=id).delete()
+		return True
+
+
 class User(models.Model):
 	name = models.CharField(max_length=45)
 	last = models.CharField(max_length=45)
 	email = models.CharField(max_length=100)
 	password = models.CharField(max_length=100)
+	created_at = models.DateTimeField(auto_now_add = True)
+	updated_at = models.DateTimeField(auto_now = True)
+	objects = UserManager()
+class Item(models.Model):
+	item = models.CharField(max_length=45)
+	added_by = models.ForeignKey(User)
+	created_at = models.DateTimeField(auto_now_add = True)
+	updated_at = models.DateTimeField(auto_now = True)
+	objects = UserManager()
+class Wish_list(models.Model):
+	useradding = models.ForeignKey(User)
+	itemsadded = models.ForeignKey(Item)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	objects = UserManager()

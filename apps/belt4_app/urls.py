@@ -1,4 +1,4 @@
-"""belt3 URL Configuration
+"""belt4 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -18,16 +18,14 @@ from django.contrib import admin
 from . import views
 urlpatterns = [
     url(r'^$', views.index),
-    # url(r'^register$',views.register),
-    # url(r'^appointments$',views.appointments),
-    # url(r'^login$',views.login),
-    # url(r'^logout$', views.logout),
-    # url(r'^adder$', views.adder),
-    # url(r'^edit/(?P<apptid>\d+)$', views.edit),
-    # url(r'^editdone/(?P<apptid>\d+)$', views.editdone),
-    # url(r'^delete/(?P<id>\d+)$', views.delete),
+    url(r'^register$',views.register),
+    url(r'^dashboard$',views.dashboard),
+    url(r'^login$',views.login),
+    url(r'^logout$', views.logout),
+    url(r'^additem$', views.additem),
+    url(r'^addingitem/(?P<id>\d+)$', views.addingitem),
+    url(r'^addtomy/(?P<id>\d+)/(?P<aid>\d+)$', views.addtomy),
+    url(r'^delete/(?P<id>\d+)$', views.delete),
+    url(r'^show/(?P<id>\d+)$', views.show)
 
-
-
-    # url(r'^user/(?P<id>\d+)$', views.showuser)
 ]
